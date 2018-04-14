@@ -198,13 +198,30 @@ ORDER BY count(r.rental_id) DESC;
 
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
 
-
+SELECT s.store_id, sum(p.amount) as "Total_Revenue"
+FROM store s
+JOIN inventory i
+ON s.store_id = i.store_id
+JOIN rental r
+ON i.inventory_id = r.inventory_id
+JOIN payment p
+ON r.rental_id = p.rental_id
+GROUP BY s.store_id;
 
 -- 7g. Write a query to display for each store its store ID, city, and country.
 
+SELECT s.store_id, c.city, ct.country
+FROM store s
+JOIN address a
+ON s.address_id = a.address_id
+JOIN city c
+ON a.city_id = c.city_id
+JOIN country ct
+ON c.country_id = ct.country_id;
 
+-- 7h. List the top five genres in gross revenue in descending order. 
+-- (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 
--- 7h. List the top five genres in gross revenue in descending order. (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
-
+SELECT 
 
 
