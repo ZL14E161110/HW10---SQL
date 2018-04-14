@@ -222,6 +222,43 @@ ON c.country_id = ct.country_id;
 -- 7h. List the top five genres in gross revenue in descending order. 
 -- (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
 
-SELECT 
+SELECT c.name as "Movie Genres", sum(p.amount) as "Gross Revenue"
+FROM category c
+JOIN film_category fc
+ON c.category_id = fc.category_id
+JOIN inventory i
+ON fc.film_id = i.film_id
+JOIN rental r
+ON i.inventory_id = r.inventory_id
+JOIN payment p
+ON r.rental_id = p.rental_id
+GROUP BY c.category_id
+ORDER BY sum(p.amount) DESC
+LIMIT 5;
+
+-- 8a. Use the solution from the problem above to create a view.
+
+CREATE VIEW `top_five_genres` 
+AS SELECT c.name as "Movie Genres", sum(p.amount) as "Gross Revenue"
+FROM category c
+JOIN film_category fc
+ON c.category_id = fc.category_id
+JOIN inventory i
+ON fc.film_id = i.film_id
+JOIN rental r
+ON i.inventory_id = r.inventory_id
+JOIN payment p
+ON r.rental_id = p.rental_id
+GROUP BY c.category_id
+ORDER BY sum(p.amount) DESC
+LIMIT 5;
+
+-- 8b. How would you display the view that you created in 8a?
+
+SELECT * FROM `top_five_genres`;
+
+-- 8c. You find that you no longer need the view top_five_genres. Write a query to delete it.
+
+DROP VIEW `top_five_genres`;
 
 
